@@ -3,6 +3,7 @@ package views;
 import com.google.inject.Inject;
 import constants.DataEntryConstants;
 import properties.ViewProperties;
+import service.BackStack;
 
 import javax.inject.Named;
 import javax.swing.*;
@@ -18,6 +19,7 @@ public class LoginView extends View  {
     private ViewProperties viewProperties;
     private View signUpView;
     private IMainView mainView;
+    private BackStack backStack;
 
     private JLabel userNameLabel;
     private JTextField userName;
@@ -32,10 +34,11 @@ public class LoginView extends View  {
     private JButton createNewAccount;
 
     @Inject
-    public LoginView(ViewProperties viewProperties, @Named(SIGN_UP_WINDOW) View signUpView, IMainView mainView) {
+    public LoginView(ViewProperties viewProperties, @Named(SIGN_UP_WINDOW) View signUpView, IMainView mainView, BackStack backStack) {
         this.viewProperties = viewProperties;
         this.signUpView = signUpView;
         this.mainView = mainView;
+        this.backStack = backStack;
         this.setPreferredSize(new Dimension(DataEntryConstants.PANEL_WIDTH, PANEL_HEIGHT));
         this.setBackground(viewProperties.getColor());
         this.setLayout(null);
@@ -66,7 +69,7 @@ public class LoginView extends View  {
         loginButton.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 7), PANEL_HEIGHT / 2 + (PANEL_HEIGHT / 20) * 3, (PANEL_WIDTH / 5), (PANEL_HEIGHT / 20));
         userName.setFont(new Font("Courier", Font.BOLD, 16));
         loginLabel.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 3), PANEL_HEIGHT / 5, (PANEL_WIDTH), (PANEL_HEIGHT / 15));
-        loginLabel.setFont(new Font("Courier", Font.BOLD, 50));
+        loginLabel.setFont(new Font("Courier", Font.BOLD, PANEL_WIDTH/ 24));
         createNewAccount.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 7), PANEL_HEIGHT / 2 + (PANEL_HEIGHT / 20) * 4,(PANEL_WIDTH / 5), (PANEL_HEIGHT / 20) );
     }
 
@@ -107,12 +110,14 @@ public class LoginView extends View  {
                     passwordValue = passwordValue + e.getKeyChar();
                     applySecurity();
                 } else if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE) {
-                    passwordValue = passwordValue.substring(0, passwordValue.length() - 1);
+                    if (passwordValue.length() >= 1)
+                        passwordValue = passwordValue.substring(0, passwordValue.length() - 1);
                     applySecurity();
                 }
             }
         });
         createNewAccount.addActionListener((e) -> {
+            backStack.addPanelNode(this);
             mainView.hideable(this);
             mainView.showable(signUpView, BorderLayout.EAST);
         });

@@ -8,8 +8,7 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-import static constants.DataEntryConstants.PANEL_HEIGHT;
-import static constants.DataEntryConstants.PANEL_WIDTH;
+import static constants.DataEntryConstants.*;
 
 public class SignUpView extends View {
 
@@ -18,6 +17,8 @@ public class SignUpView extends View {
     private JTextField yourName;
     private JTextField userName;
     private JTextField password;
+    private JLabel signUpLabel;
+    private JButton signUp;
 
     @Inject
     public SignUpView(ViewProperties viewProperties) {
@@ -31,18 +32,31 @@ public class SignUpView extends View {
     }
 
     private void initializeInstances() {
-        yourName = new JTextField("Hello");
-        userName = new JTextField("Boom");
+        signUpLabel = new JLabel(DataEntryConstants.PLEASE_ENTER_DETAILS_SIGN_UP);
+        yourName = new JTextField();
+        userName = new JTextField();
         password = new JTextField();
+        signUp = new JButton(SIGN_UP);
     }
 
     private void addProperties() {
-        userName.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 7), PANEL_HEIGHT / 2, (PANEL_WIDTH / 5), (PANEL_HEIGHT / 20));
+        signUpLabel.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 3), PANEL_HEIGHT / 5, (PANEL_WIDTH), (PANEL_HEIGHT / 15));
+        signUpLabel.setFont(new Font("Courier", Font.BOLD, PANEL_WIDTH / 30));
+        yourName.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 7), PANEL_HEIGHT / 3, (PANEL_WIDTH / 5), (PANEL_HEIGHT / 20));
+        yourName.setBorder( new MatteBorder(0, 0, 1, 0, Color.black));
+        userName.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 7), PANEL_HEIGHT / 3 + (PANEL_HEIGHT / 15), (PANEL_WIDTH / 5), (PANEL_HEIGHT / 20));
         userName.setBorder( new MatteBorder(0, 0, 1, 0, Color.black));
+        password.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 7), PANEL_HEIGHT / 3 + (PANEL_HEIGHT / 15) * 2, (PANEL_WIDTH / 5), (PANEL_HEIGHT / 20));
+        password.setBorder( new MatteBorder(0, 0, 1, 0, Color.black));
+        signUp.setBounds((PANEL_WIDTH / 2) - (PANEL_WIDTH / 7), PANEL_HEIGHT / 3 + (PANEL_HEIGHT / 15) * 3, (PANEL_WIDTH / 5), (PANEL_HEIGHT / 20));
     }
 
     private void addComponents() {
+        this.add(signUpLabel);
+        this.add(yourName);
         this.add(userName);
+        this.add(password);
+        this.add(signUp);
     }
 
     @Override
