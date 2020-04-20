@@ -24,6 +24,7 @@ public class DataEntryConstants {
     public static final String LOGIN = "LOGIN";
     public static final String CREATE_NEW_ACCOUNT = "Create New Account?";
     public static final String SIGN_UP = "Sign up";
+    public static final String CANCEL = "Cancel";
 
     public static class Nav {
         public static final String MAIN_MENU = "MAIN MENU";

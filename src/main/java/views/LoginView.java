@@ -3,6 +3,7 @@ package views;
 import com.google.inject.Inject;
 import constants.DataEntryConstants;
 import properties.ViewProperties;
+import providers.MainViewProvider;
 import service.BackStack;
 
 import javax.inject.Named;
@@ -18,8 +19,9 @@ public class LoginView extends View  {
 
     private ViewProperties viewProperties;
     private View signUpView;
-    private IMainView mainView;
     private BackStack backStack;
+
+    private MainViewProvider mainViewProvider;
 
     private JLabel userNameLabel;
     private JTextField userName;
@@ -34,11 +36,11 @@ public class LoginView extends View  {
     private JButton createNewAccount;
 
     @Inject
-    public LoginView(ViewProperties viewProperties, @Named(SIGN_UP_WINDOW) View signUpView, IMainView mainView, BackStack backStack) {
+    public LoginView(ViewProperties viewProperties, @Named(SIGN_UP_WINDOW) View signUpView, BackStack backStack, MainViewProvider mainViewProvider) {
         this.viewProperties = viewProperties;
         this.signUpView = signUpView;
-        this.mainView = mainView;
         this.backStack = backStack;
+        this.mainViewProvider = mainViewProvider;
         this.setPreferredSize(new Dimension(DataEntryConstants.PANEL_WIDTH, PANEL_HEIGHT));
         this.setBackground(viewProperties.getColor());
         this.setLayout(null);
@@ -118,8 +120,8 @@ public class LoginView extends View  {
         });
         createNewAccount.addActionListener((e) -> {
             backStack.addPanelNode(this);
-            mainView.hideable(this);
-            mainView.showable(signUpView, BorderLayout.EAST);
+            mainViewProvider.getMainView().hideable(this);
+            mainViewProvider.getMainView().showable(signUpView, BorderLayout.EAST);
         });
     }
 
